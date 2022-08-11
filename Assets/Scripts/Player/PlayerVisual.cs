@@ -68,6 +68,7 @@ namespace Player
 
         public void PlayDieAnimation()
         {
+            _animator.ResetTrigger(RespawnHash);
             _animator.ResetTrigger(GroundedHash);
             _animator.ResetTrigger(FlyDownHash);
             _animator.ResetTrigger(FlyUpHash);

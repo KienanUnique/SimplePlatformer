@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace Player
@@ -7,6 +8,8 @@ namespace Player
     [RequireComponent(typeof(PlayerCharacter))]
     public class PlayerController : MonoBehaviour
     {
+        [SerializeField] private float secondsBeforeRespawn = 3.0f;
+
         private PlayerMoving _playerMoving;
         private PlayerVisual _playerVisual;
         private PlayerCharacter _playerCharacter;
@@ -26,6 +29,7 @@ namespace Player
             _playerMoving.FlyUp += OnFlyUp;
             _playerMoving.FlyDown += OnFlyDown;
             _playerMoving.Grounded += OnGrounded;
+            _playerCharacter.Die += OnDie;
         }
 
         private void OnDisable()
@@ -36,6 +40,12 @@ namespace Player
             _playerMoving.FlyUp -= OnFlyUp;
             _playerMoving.FlyDown -= OnFlyDown;
             _playerMoving.Grounded -= OnGrounded;
+            _playerCharacter.Die -= OnDie;
+        }
+
+        private void Start()
+        {
+            Respawn();
         }
 
         private void OnMoveLeft()
@@ -57,15 +67,33 @@ namespace Player
         {
             _playerVisual.PlayFlyUpAnimation();
         }
-        
+
         private void OnFlyDown()
         {
             _playerVisual.PlayFlyDownAnimation();
         }
-        
+
         private void OnGrounded()
         {
             _playerVisual.PlayGroundedAnimation();
+        }
+
+        private void OnDie()
+        {
+            _playerMoving.DisableMoving();
+            _playerVisual.PlayDieAnimation();
+            _playerMoving.ApplyDeadColliderParameters();
+
+            Invoke(nameof(Respawn), secondsBeforeRespawn);
+        }
+
+        private void Respawn()
+        {
+            _playerCharacter.Respawn();
+            _playerMoving.TeleportToRespawnPoint();
+            _playerMoving.ApplyAliveColliderParameters();
+            _playerVisual.PlayRespawnAnimation();
+            _playerMoving.EnableMoving();
         }
     }
 }

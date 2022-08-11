@@ -3,10 +3,14 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
+    [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerMoving : MonoBehaviour
     {
         [SerializeField] private float jumpForce = 550f;
         [SerializeField] private float walkSpeed = 7f;
+        [SerializeField] private Transform respawnPoint;
+        [SerializeField] private Vector2 boxColliderAfterDeadOffset;
+        [SerializeField] private Vector2 boxColliderAfterDeadSize;
 
         public delegate void OnMoveRight();
 
@@ -23,15 +27,19 @@ namespace Player
         public delegate void OnFlyDown();
 
         public event OnFlyDown FlyDown;
-        
+
         public delegate void OnFlyUp();
 
         public event OnFlyUp FlyUp;
-        
+
         public delegate void OnGrounded();
 
         public event OnGrounded Grounded;
 
+        private Vector2 _boxColliderAfterRespawnOffset;
+        private Vector2 _boxColliderAfterRespawnSize;
+        private BoxCollider2D _boxCollider2D;
+        private bool _movingEnabled;
         private bool _isMoving;
         private bool _isInAir;
         private bool _isFlyingUp;
@@ -46,8 +54,13 @@ namespace Player
         {
             _playerInput = new PlayerInput();
             _playerInput.Player.Jump.performed += ctx => OnJumpButtonPressed();
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            _boxCollider2D = GetComponent<BoxCollider2D>();
             _groundChecker = GetComponentInChildren<GroundChecker>();
             _isInAir = true;
+
+            _boxColliderAfterRespawnSize = _boxCollider2D.size;
+            _boxColliderAfterRespawnOffset = _boxCollider2D.offset;
         }
 
         private void OnEnable()
@@ -60,12 +73,16 @@ namespace Player
             _playerInput.Disable();
         }
 
-        private void Start()
+        private void Update()
         {
-            _rigidbody2D = GetComponent<Rigidbody2D>();
+            if (!_movingEnabled) return;
+
+            CheckPlayerFlyStatus();
+            var inputDirection = _playerInput.Player.Walk.ReadValue<float>();
+            Walk(inputDirection);
         }
 
-        private void Update()
+        private void CheckPlayerFlyStatus()
         {
             if (_isInAir && _groundChecker.IsGrounded())
             {
@@ -89,16 +106,14 @@ namespace Player
                     FlyUp?.Invoke();
                     _isFlyingUp = true;
                 }
+
                 _isInAir = true;
             }
-
-            var inputDirection = _playerInput.Player.Walk.ReadValue<float>();
-            Walk(inputDirection);
         }
 
         private void OnJumpButtonPressed()
         {
-            if (!_groundChecker.IsGrounded()) return;
+            if (!_groundChecker.IsGrounded() || !_movingEnabled) return;
             _rigidbody2D.AddForce(Vector2.up * jumpForce);
         }
 
@@ -125,6 +140,33 @@ namespace Player
             }
 
             transform.position = new Vector3(newPositionX, transform.position.y, transform.position.z);
+        }
+
+        public void DisableMoving()
+        {
+            _movingEnabled = false;
+        }
+
+        public void EnableMoving()
+        {
+            _movingEnabled = true;
+        }
+
+        public void TeleportToRespawnPoint()
+        {
+            transform.position = respawnPoint.position;
+        }
+
+        public void ApplyDeadColliderParameters()
+        {
+            _boxCollider2D.size = boxColliderAfterDeadSize;
+            _boxCollider2D.offset = boxColliderAfterDeadOffset;
+        }
+        
+        public void ApplyAliveColliderParameters()
+        {
+            _boxCollider2D.size = _boxColliderAfterRespawnSize;
+            _boxCollider2D.offset = _boxColliderAfterRespawnOffset;
         }
     }
 }
