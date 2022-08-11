@@ -27,7 +27,6 @@ namespace Flying_eye
             {
                 _wayPoints.Add(route.GetChild(i).transform.position);
             }
-            Debug.Log(_wayPoints.Count);
         }
 
         private void Update()
