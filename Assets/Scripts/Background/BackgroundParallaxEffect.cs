@@ -6,7 +6,7 @@ namespace Background
     public class BackgroundParallaxEffect : MonoBehaviour
     {
         [SerializeField] private float parallaxEffectSpeed;
-        [SerializeField] private Transform camera;
+        [SerializeField] private new Transform camera;
 
         private float _spriteLength;
         private float _startPositionX;

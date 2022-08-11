@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Flying_eye
+namespace Enemies.Flying_eye
 {
     [RequireComponent(typeof(Animator))]
     [RequireComponent(typeof(SpriteRenderer))]

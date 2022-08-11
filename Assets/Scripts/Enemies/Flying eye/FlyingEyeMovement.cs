@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Flying_eye
+namespace Enemies.Flying_eye
 {
     public class FlyingEyeMovement : MonoBehaviour
     {
@@ -27,11 +27,13 @@ namespace Flying_eye
             {
                 _wayPoints.Add(route.GetChild(i).transform.position);
             }
+
+            TeleportToStartPosition();
         }
 
         private void Update()
         {
-            if (_wayPoints.Count == 0) return;
+            if (_wayPoints.Count < 2) return;
 
             if (transform.position.x < _wayPoints[_currentWayPointIndex].x)
             {
@@ -65,6 +67,13 @@ namespace Flying_eye
                     _isOnTheWayBack = false;
                 }
             }
+        }
+
+        public void TeleportToStartPosition()
+        {
+            if (_wayPoints.Count == 0) return;
+            transform.position = _wayPoints[0];
+            _currentWayPointIndex = 1;
         }
     }
 }

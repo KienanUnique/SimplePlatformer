@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Flying_eye
+namespace Enemies.Flying_eye
 {
     [RequireComponent(typeof(FlyingEyeMovement))]
     [RequireComponent(typeof(FlyingEyeVisual))]
@@ -35,6 +35,11 @@ namespace Flying_eye
         private void OnMoveLeft()
         {
             _flyingEyeVisual.StartMovingLeftAnimation();
+        }
+
+        public void Respawn()
+        {
+            _flyingEyeMovement.TeleportToStartPosition();
         }
     }
 }

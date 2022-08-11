@@ -1,11 +1,11 @@
 using Player;
 using UnityEngine;
 
-namespace Flying_eye
+namespace Enemies
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(CircleCollider2D))]
-    public class FlyingEyeAttack : MonoBehaviour
+    [RequireComponent(typeof(Collider2D))]
+    public class KillOnTouch : MonoBehaviour
     {
         [SerializeField] private float dropForce = 500.0f;
 
