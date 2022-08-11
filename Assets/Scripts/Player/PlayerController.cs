@@ -1,4 +1,5 @@
 using System;
+using Coin;
 using UnityEngine;
 
 namespace Player
@@ -13,12 +14,14 @@ namespace Player
         private PlayerMoving _playerMoving;
         private PlayerVisual _playerVisual;
         private PlayerCharacter _playerCharacter;
+        private CoinsController _coinsController;
 
         private void Awake()
         {
             _playerMoving = GetComponent<PlayerMoving>();
             _playerVisual = GetComponent<PlayerVisual>();
             _playerCharacter = GetComponent<PlayerCharacter>();
+            _coinsController = FindObjectOfType<CoinsController>();
         }
 
         private void OnEnable()
@@ -90,10 +93,12 @@ namespace Player
         private void Respawn()
         {
             _playerCharacter.Respawn();
+            _playerCharacter.NullCoins();
             _playerMoving.TeleportToRespawnPoint();
             _playerMoving.ApplyAliveColliderParameters();
             _playerVisual.PlayRespawnAnimation();
             _playerMoving.EnableMoving();
+            _coinsController.SpawnCoins();
         }
     }
 }
