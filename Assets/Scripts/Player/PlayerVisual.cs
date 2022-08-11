@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Player
 {
-    [RequireComponent(typeof(Animator))]
+    [RequireComponent(typeof(SpriteRenderer))]
     [RequireComponent(typeof(Animator))]
     public class PlayerVisual : MonoBehaviour
     {

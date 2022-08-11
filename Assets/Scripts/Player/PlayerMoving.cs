@@ -5,8 +5,8 @@ namespace Player
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerMoving : MonoBehaviour
     {
-        [SerializeField] private float jumpForce = 50f;
-        [SerializeField] private float walkSpeed = 20f;
+        [SerializeField] private float jumpForce = 550f;
+        [SerializeField] private float walkSpeed = 7f;
 
         public delegate void OnMoveRight();
 
