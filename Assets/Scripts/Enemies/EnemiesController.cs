@@ -7,7 +7,7 @@ namespace Enemies
     {
         private FlyingEyeController[] _allEnemies;
 
-        private void Start()
+        private void Awake()
         {
             _allEnemies = GetComponentsInChildren<FlyingEyeController>();
         }
