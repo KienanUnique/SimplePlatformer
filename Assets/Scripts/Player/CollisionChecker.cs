@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Player
 {
     [RequireComponent(typeof(BoxCollider2D))]
-    public class GroundChecker : MonoBehaviour
+    public class CollisionChecker : MonoBehaviour
     {
         [SerializeField] private LayerMask platformLayerMask;
 
@@ -19,7 +19,7 @@ namespace Player
             _isGrounded = false;
         }
 
-        public bool IsGrounded()
+        public bool IsInContact()
         {
             return _isGrounded;
         }

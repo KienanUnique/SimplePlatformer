@@ -6,11 +6,18 @@ namespace Player
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerMoving : MonoBehaviour
     {
-        [SerializeField] private float jumpForce = 550f;
+        [Header("Move")] [SerializeField] private float jumpForce = 550f;
         [SerializeField] private float walkSpeed = 7f;
-        [SerializeField] private Transform respawnPoint;
+
+        [Header("Die")] [SerializeField] private Transform respawnPoint;
         [SerializeField] private Vector2 boxColliderAfterDeadOffset;
         [SerializeField] private Vector2 boxColliderAfterDeadSize;
+
+        [Header("Collision Check")] [SerializeField]
+        private CollisionChecker groundCollisionChecker;
+
+        [SerializeField] private CollisionChecker leftCollisionChecker;
+        [SerializeField] private CollisionChecker rightCollisionChecker;
 
         public delegate void OnMoveRight();
 
@@ -31,7 +38,7 @@ namespace Player
         public delegate void OnFlyUp();
 
         public event OnFlyUp FlyUp;
-        
+
         public delegate void OnJump();
 
         public event OnJump Jump;
@@ -49,7 +56,6 @@ namespace Player
         private bool _isFlyingUp;
         private Rigidbody2D _rigidbody2D;
         private PlayerInput _playerInput;
-        private GroundChecker _groundChecker;
 
         private const float MinRightDuration = 0.1f;
         private const float MaxLeftDuration = -0.1f;
@@ -60,7 +66,6 @@ namespace Player
             _playerInput.Player.Jump.performed += ctx => OnJumpButtonPressed();
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
-            _groundChecker = GetComponentInChildren<GroundChecker>();
             _isInAir = true;
 
             _boxColliderAfterRespawnSize = _boxCollider2D.size;
@@ -88,18 +93,18 @@ namespace Player
 
         private void CheckPlayerFlyStatus()
         {
-            if (_isInAir && _groundChecker.IsGrounded())
+            if (_isInAir && groundCollisionChecker.IsInContact())
             {
                 Grounded?.Invoke();
                 _isInAir = false;
                 _isFlyingUp = false;
             }
-            else if (_isInAir && !_groundChecker.IsGrounded() && _isFlyingUp && _rigidbody2D.velocity.y < 0)
+            else if (_isInAir && !groundCollisionChecker.IsInContact() && _isFlyingUp && _rigidbody2D.velocity.y < 0)
             {
                 FlyDown?.Invoke();
                 _isFlyingUp = false;
             }
-            else if (!_isInAir && !_groundChecker.IsGrounded())
+            else if (!_isInAir && !groundCollisionChecker.IsInContact())
             {
                 if (_rigidbody2D.velocity.y < 0)
                 {
@@ -117,34 +122,37 @@ namespace Player
 
         private void OnJumpButtonPressed()
         {
-            if (!_groundChecker.IsGrounded() || !_movingEnabled) return;
+            if (!groundCollisionChecker.IsInContact() || !_movingEnabled) return;
             Jump?.Invoke();
             _rigidbody2D.AddForce(Vector2.up * jumpForce);
         }
 
         private void Walk(float direction)
         {
-            var newPositionX = transform.position.x;
             if (_isMoving && direction < MinRightDuration && direction > MaxLeftDuration)
             {
                 _isMoving = false;
                 StopMoving?.Invoke();
             }
 
-            if (direction > MinRightDuration)
+            if (!_isInAir || (!leftCollisionChecker.IsInContact() && !rightCollisionChecker.IsInContact()))
             {
-                newPositionX += walkSpeed * Time.deltaTime;
-                MoveRight?.Invoke();
-                _isMoving = true;
-            }
-            else if (direction < MaxLeftDuration)
-            {
-                newPositionX -= walkSpeed * Time.deltaTime;
-                MoveLeft?.Invoke();
-                _isMoving = true;
-            }
+                var newPositionX = transform.position.x;
+                if (direction > MinRightDuration)
+                {
+                    newPositionX += walkSpeed * Time.deltaTime;
+                    MoveRight?.Invoke();
+                    _isMoving = true;
+                }
+                else if (direction < MaxLeftDuration)
+                {
+                    newPositionX -= walkSpeed * Time.deltaTime;
+                    MoveLeft?.Invoke();
+                    _isMoving = true;
+                }
 
-            transform.position = new Vector3(newPositionX, transform.position.y, transform.position.z);
+                transform.position = new Vector3(newPositionX, transform.position.y, transform.position.z);
+            }
         }
 
         public void DisableMoving()
@@ -167,7 +175,7 @@ namespace Player
             _boxCollider2D.size = boxColliderAfterDeadSize;
             _boxCollider2D.offset = boxColliderAfterDeadOffset;
         }
-        
+
         public void ApplyAliveColliderParameters()
         {
             _boxCollider2D.size = _boxColliderAfterRespawnSize;
