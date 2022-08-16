@@ -7216,34 +7216,6 @@ PrefabInstance:
       propertyPath: route
       value: 
       objectReference: {fileID: 825290804}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[2]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[3]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[4]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664236, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: wayPoints.Array.data[5]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7045716003560664237, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
-      propertyPath: dropForce
-      value: 700
-      objectReference: {fileID: 0}
     - target: {fileID: 7045716003560664241, guid: 4236ef6d9fb12d94cb221bfde88c6a7d, type: 3}
       propertyPath: m_RootOrder
       value: 0

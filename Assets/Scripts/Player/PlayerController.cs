@@ -5,6 +5,7 @@ namespace Player
     [RequireComponent(typeof(PlayerMoving))]
     [RequireComponent(typeof(PlayerVisual))]
     [RequireComponent(typeof(PlayerCharacter))]
+    [RequireComponent(typeof(PlayerAudio))]
     public class PlayerController : MonoBehaviour
     {
         [SerializeField] private float secondsBeforeRespawn = 3.0f;
@@ -13,12 +14,14 @@ namespace Player
         private PlayerVisual _playerVisual;
         private PlayerCharacter _playerCharacter;
         private LevelController _levelController;
+        private PlayerAudio _playerAudio;
 
         private void Awake()
         {
             _playerMoving = GetComponent<PlayerMoving>();
             _playerVisual = GetComponent<PlayerVisual>();
             _playerCharacter = GetComponent<PlayerCharacter>();
+            _playerAudio = GetComponent<PlayerAudio>();
             _levelController = FindObjectOfType<LevelController>();
         }
 
@@ -27,6 +30,7 @@ namespace Player
             _playerMoving.MoveLeft += OnMoveLeft;
             _playerMoving.MoveRight += OnMoveRight;
             _playerMoving.StopMoving += OnStopMoving;
+            _playerMoving.Jump += OnJump;
             _playerMoving.FlyUp += OnFlyUp;
             _playerMoving.FlyDown += OnFlyDown;
             _playerMoving.Grounded += OnGrounded;
@@ -38,6 +42,7 @@ namespace Player
             _playerMoving.MoveLeft -= OnMoveLeft;
             _playerMoving.MoveRight -= OnMoveRight;
             _playerMoving.StopMoving -= OnStopMoving;
+            _playerMoving.Jump -= OnJump;
             _playerMoving.FlyUp -= OnFlyUp;
             _playerMoving.FlyDown -= OnFlyDown;
             _playerMoving.Grounded -= OnGrounded;
@@ -64,6 +69,11 @@ namespace Player
             _playerVisual.StartIdleAnimation();
         }
 
+        private void OnJump()
+        {
+            _playerAudio.PlayJumpSound();
+        }
+
         private void OnFlyUp()
         {
             _playerVisual.PlayFlyUpAnimation();
@@ -77,10 +87,12 @@ namespace Player
         private void OnGrounded()
         {
             _playerVisual.PlayGroundedAnimation();
+            _playerAudio.PlayGroundingSound();
         }
 
         private void OnDie()
         {
+            _playerAudio.PlayDieSound();
             _playerMoving.DisableMoving();
             _playerVisual.PlayDieAnimation();
             _playerMoving.ApplyDeadColliderParameters();

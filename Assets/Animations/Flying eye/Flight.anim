@@ -86,4 +86,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.75
+    functionName: PlayRandomWingFlapSound
+    data: 
+    objectReferenceParameter: {fileID: 11500000, guid: 5f7483a9228433b48b992c61d25707c3, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

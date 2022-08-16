@@ -31,6 +31,10 @@ namespace Player
         public delegate void OnFlyUp();
 
         public event OnFlyUp FlyUp;
+        
+        public delegate void OnJump();
+
+        public event OnJump Jump;
 
         public delegate void OnGrounded();
 
@@ -114,6 +118,7 @@ namespace Player
         private void OnJumpButtonPressed()
         {
             if (!_groundChecker.IsGrounded() || !_movingEnabled) return;
+            Jump?.Invoke();
             _rigidbody2D.AddForce(Vector2.up * jumpForce);
         }
 
