@@ -20,15 +20,13 @@ namespace Enemies.Flying_eye
         private int _currentWayPointIndex;
         private bool _isOnTheWayBack;
 
-        private void Start()
+        private void Awake()
         {
             _wayPoints = new List<Vector3>();
             for (var i = 0; i < route.childCount; i++)
             {
                 _wayPoints.Add(route.GetChild(i).transform.position);
             }
-
-            TeleportToStartPosition();
         }
 
         private void Update()
