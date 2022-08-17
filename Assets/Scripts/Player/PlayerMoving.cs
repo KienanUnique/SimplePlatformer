@@ -66,6 +66,7 @@ namespace Player
             _playerInput.Player.Jump.performed += ctx => OnJumpButtonPressed();
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _boxCollider2D = GetComponent<BoxCollider2D>();
+            _movingEnabled = true;
             _isInAir = true;
 
             _boxColliderAfterRespawnSize = _boxCollider2D.size;
