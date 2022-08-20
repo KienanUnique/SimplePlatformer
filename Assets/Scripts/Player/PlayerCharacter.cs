@@ -4,12 +4,13 @@ namespace Player
 {
     public class PlayerCharacter : MonoBehaviour
     {
-        private int _countOfCoins;
         public delegate void OnDie();
-
         public event OnDie Die;
+        public delegate void OnCoinCollected();
+        public event OnCoinCollected CoinCollected;
 
         private bool _isAlive;
+        private int _countOfCoins;
 
         public bool IsAlive()
         {
@@ -30,6 +31,7 @@ namespace Player
         public void AddCoin()
         {
             _countOfCoins++;
+            CoinCollected?.Invoke();
         }
         
         public void NullCoins()

@@ -19,7 +19,6 @@ namespace Coin
                 !playerCharacter.IsAlive()) return;
             playerCharacter.AddCoin();
             _collectibleCoinAudio.PlayCoinCollectSound();
-            Debug.Log(playerCharacter.GetCountOfCoins());
             gameObject.SetActive(false);
         }
     }

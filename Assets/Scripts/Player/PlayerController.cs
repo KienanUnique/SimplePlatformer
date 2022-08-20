@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 
 namespace Player
@@ -13,8 +14,9 @@ namespace Player
         private PlayerMoving _playerMoving;
         private PlayerVisual _playerVisual;
         private PlayerCharacter _playerCharacter;
-        private LevelController _levelController;
         private PlayerAudio _playerAudio;
+        private CoinsScoreText _coinsScoreText;
+        private LevelController _levelController;
 
         private void Awake()
         {
@@ -23,6 +25,7 @@ namespace Player
             _playerCharacter = GetComponent<PlayerCharacter>();
             _playerAudio = GetComponent<PlayerAudio>();
             _levelController = FindObjectOfType<LevelController>();
+            _coinsScoreText = FindObjectOfType<CoinsScoreText>();
         }
 
         private void OnEnable()
@@ -35,6 +38,7 @@ namespace Player
             _playerMoving.FlyDown += OnFlyDown;
             _playerMoving.Grounded += OnGrounded;
             _playerCharacter.Die += OnDie;
+            _playerCharacter.CoinCollected += OnCoinCollected;
         }
 
         private void OnDisable()
@@ -47,6 +51,7 @@ namespace Player
             _playerMoving.FlyDown -= OnFlyDown;
             _playerMoving.Grounded -= OnGrounded;
             _playerCharacter.Die -= OnDie;
+            _playerCharacter.CoinCollected -= OnCoinCollected;
         }
 
         private void Start()
@@ -90,6 +95,11 @@ namespace Player
             _playerAudio.PlayGroundingSound();
         }
 
+        private void OnCoinCollected()
+        {
+            _coinsScoreText.SetCoinsCount(_playerCharacter.GetCountOfCoins());
+        }
+
         private void OnDie()
         {
             _playerAudio.PlayDieSound();
@@ -104,6 +114,7 @@ namespace Player
         {
             _playerCharacter.Respawn();
             _playerCharacter.NullCoins();
+            _coinsScoreText.SetCoinsCount(_playerCharacter.GetCountOfCoins());
             _playerMoving.TeleportToRespawnPoint();
             _playerMoving.ApplyAliveColliderParameters();
             _playerVisual.PlayRespawnAnimation();
