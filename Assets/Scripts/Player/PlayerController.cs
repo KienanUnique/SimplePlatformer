@@ -39,6 +39,7 @@ namespace Player
             _playerMoving.Grounded += OnGrounded;
             _playerCharacter.Die += OnDie;
             _playerCharacter.CoinCollected += OnCoinCollected;
+            _playerCharacter.LevelFinished += OnLevelFinished;
         }
 
         private void OnDisable()
@@ -52,6 +53,7 @@ namespace Player
             _playerMoving.Grounded -= OnGrounded;
             _playerCharacter.Die -= OnDie;
             _playerCharacter.CoinCollected -= OnCoinCollected;
+            _playerCharacter.LevelFinished -= OnLevelFinished;
         }
 
         private void Start()
@@ -120,6 +122,11 @@ namespace Player
             _playerVisual.PlayRespawnAnimation();
             _playerMoving.EnableMoving();
             _levelController.RestartLevel();
+        }
+
+        private void OnLevelFinished()
+        {
+            Respawn();
         }
     }
 }

@@ -8,6 +8,8 @@ namespace Player
         public event OnDie Die;
         public delegate void OnCoinCollected();
         public event OnCoinCollected CoinCollected;
+        public delegate void OnLevelFinished();
+        public event OnLevelFinished LevelFinished;
 
         private bool _isAlive;
         private int _countOfCoins;
@@ -33,15 +35,20 @@ namespace Player
             _countOfCoins++;
             CoinCollected?.Invoke();
         }
-        
+
         public void NullCoins()
         {
             _countOfCoins = 0;
         }
-        
+
         public int GetCountOfCoins()
         {
             return _countOfCoins;
+        }
+
+        public void FinishLevel()
+        {
+            LevelFinished?.Invoke();
         }
     }
 }
