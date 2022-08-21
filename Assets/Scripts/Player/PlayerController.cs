@@ -15,8 +15,9 @@ namespace Player
         private PlayerVisual _playerVisual;
         private PlayerCharacter _playerCharacter;
         private PlayerAudio _playerAudio;
-        private CoinsScoreText _coinsScoreText;
         private LevelController _levelController;
+        private CoinsScoreText _coinsScoreText;
+        private BestCoinsScoreText _bestCoinsScoreText;
 
         private void Awake()
         {
@@ -26,6 +27,7 @@ namespace Player
             _playerAudio = GetComponent<PlayerAudio>();
             _levelController = FindObjectOfType<LevelController>();
             _coinsScoreText = FindObjectOfType<CoinsScoreText>();
+            _bestCoinsScoreText = FindObjectOfType<BestCoinsScoreText>();
         }
 
         private void OnEnable()
@@ -126,6 +128,7 @@ namespace Player
 
         private void OnLevelFinished()
         {
+            _bestCoinsScoreText.RegisterNewCoinsScore(_playerCharacter.GetCountOfCoins());
             Respawn();
         }
     }

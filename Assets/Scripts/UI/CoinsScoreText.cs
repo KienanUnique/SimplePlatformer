@@ -7,7 +7,7 @@ namespace UI
     [RequireComponent(typeof(Text))]
     public class CoinsScoreText : MonoBehaviour
     {
-        [SerializeField] private string scorePrefixText = "Coins score: ";
+        [SerializeField] private string scorePrefixText = "Current score: ";
 
         private Text _text;
         private StringBuilder _stringBuilder;
