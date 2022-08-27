@@ -7,21 +7,21 @@ namespace Player
     {
         [SerializeField] private LayerMask platformLayerMask;
 
-        private bool _isGrounded;
+        private bool _isInContact;
 
         private void OnTriggerStay2D(Collider2D col)
         {
-            _isGrounded = ((1 << col.gameObject.layer) & platformLayerMask) != 0;
+            _isInContact = ((1 << col.gameObject.layer) & platformLayerMask) != 0;
         }
 
         private void OnTriggerExit2D(Collider2D other)
         {
-            _isGrounded = false;
+            _isInContact = false;
         }
 
         public bool IsInContact()
         {
-            return _isGrounded;
+            return _isInContact;
         }
     }
 }
