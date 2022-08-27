@@ -8,6 +8,8 @@ namespace Player
     {
         [Header("Move")] [SerializeField] private float jumpForce = 550f;
         [SerializeField] private float walkSpeed = 7f;
+        [SerializeField] private float minRightStickPosition = 0.3f;
+        [SerializeField] private float maxLeftStickPosition = -0.3f;
 
         [Header("Die")] [SerializeField] private Transform respawnPoint;
         [SerializeField] private Vector2 boxColliderAfterDeadOffset;
@@ -56,9 +58,6 @@ namespace Player
         private bool _isFlyingUp;
         private Rigidbody2D _rigidbody2D;
         private PlayerInput _playerInput;
-
-        private const float MinRightDuration = 0.1f;
-        private const float MaxLeftDuration = -0.1f;
 
         private void Awake()
         {
@@ -130,7 +129,7 @@ namespace Player
 
         private void Walk(float direction)
         {
-            if (_isMoving && direction < MinRightDuration && direction > MaxLeftDuration)
+            if (_isMoving && direction < minRightStickPosition && direction > maxLeftStickPosition)
             {
                 _isMoving = false;
                 StopMoving?.Invoke();
@@ -139,17 +138,18 @@ namespace Player
             if (!_isInAir || (!leftCollisionChecker.IsInContact() && !rightCollisionChecker.IsInContact()))
             {
                 var newPositionX = transform.position.x;
-                if (direction > MinRightDuration)
+                if (direction > minRightStickPosition || direction < maxLeftStickPosition)
                 {
-                    newPositionX += walkSpeed * Time.deltaTime;
-                    MoveRight?.Invoke();
                     _isMoving = true;
-                }
-                else if (direction < MaxLeftDuration)
-                {
-                    newPositionX -= walkSpeed * Time.deltaTime;
-                    MoveLeft?.Invoke();
-                    _isMoving = true;
+                    newPositionX += walkSpeed * Time.deltaTime * direction;
+                    if (direction > minRightStickPosition)
+                    {
+                        MoveRight?.Invoke();
+                    }
+                    else if (direction < maxLeftStickPosition)
+                    {
+                        MoveLeft?.Invoke();
+                    }
                 }
 
                 transform.position = new Vector3(newPositionX, transform.position.y, transform.position.z);
