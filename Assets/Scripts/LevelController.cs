@@ -16,6 +16,11 @@ public class LevelController : MonoBehaviour
     public void RestartLevel()
     {
         _enemiesController.RespawnAll();
-        _coinsController.SpawnCoins();
+        _coinsController.RespawnCoins();
+    }
+
+    public void OnEndOfLevelReached()
+    {
+        _coinsController.CheckScore();
     }
 }

@@ -1,4 +1,3 @@
-using UI;
 using UnityEngine;
 
 namespace Player
@@ -16,8 +15,6 @@ namespace Player
         private PlayerCharacter _playerCharacter;
         private PlayerAudio _playerAudio;
         private LevelController _levelController;
-        private CoinsScoreText _coinsScoreText;
-        private BestCoinsScoreText _bestCoinsScoreText;
 
         private void Awake()
         {
@@ -26,8 +23,6 @@ namespace Player
             _playerCharacter = GetComponent<PlayerCharacter>();
             _playerAudio = GetComponent<PlayerAudio>();
             _levelController = FindObjectOfType<LevelController>();
-            _coinsScoreText = FindObjectOfType<CoinsScoreText>();
-            _bestCoinsScoreText = FindObjectOfType<BestCoinsScoreText>();
         }
 
         private void OnEnable()
@@ -40,7 +35,6 @@ namespace Player
             _playerMoving.FlyDown += OnFlyDown;
             _playerMoving.Grounded += OnGrounded;
             _playerCharacter.Die += OnDie;
-            _playerCharacter.CoinCollected += OnCoinCollected;
             _playerCharacter.LevelFinished += OnLevelFinished;
         }
 
@@ -54,7 +48,6 @@ namespace Player
             _playerMoving.FlyDown -= OnFlyDown;
             _playerMoving.Grounded -= OnGrounded;
             _playerCharacter.Die -= OnDie;
-            _playerCharacter.CoinCollected -= OnCoinCollected;
             _playerCharacter.LevelFinished -= OnLevelFinished;
         }
 
@@ -99,11 +92,6 @@ namespace Player
             _playerAudio.PlayGroundingSound();
         }
 
-        private void OnCoinCollected()
-        {
-            _coinsScoreText.SetCoinsCount(_playerCharacter.GetCountOfCoins());
-        }
-
         private void OnDie()
         {
             _playerAudio.PlayDieSound();
@@ -117,8 +105,6 @@ namespace Player
         private void Respawn()
         {
             _playerCharacter.Respawn();
-            _playerCharacter.NullCoins();
-            _coinsScoreText.SetCoinsCount(_playerCharacter.GetCountOfCoins());
             _playerMoving.TeleportToRespawnPoint();
             _playerMoving.ApplyAliveColliderParameters();
             _playerVisual.PlayRespawnAnimation();
@@ -128,7 +114,7 @@ namespace Player
 
         private void OnLevelFinished()
         {
-            _bestCoinsScoreText.RegisterNewCoinsScore(_playerCharacter.GetCountOfCoins());
+            _levelController.OnEndOfLevelReached();
             Respawn();
         }
     }

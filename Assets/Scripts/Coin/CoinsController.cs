@@ -1,27 +1,52 @@
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Coin
 {
     public class CoinsController : MonoBehaviour
     {
-        private List<GameObject> _coinsVisualGameObjects;
+        private BestCoinsScoreText _bestCoinsScoreText;
+        private List<CollectibleCoinController> _collectedCoins;
+        private CollectibleCoinController[] _allCoins;
+        private CoinsScoreText _coinsScoreText;
+        private int _countOfCollectedCoins;
 
-        private void Awake()
+        private void OnEnable()
         {
-            _coinsVisualGameObjects = new List<GameObject>();
-            for (var i = 0; i < transform.childCount; i++)
+            foreach (var coin in _allCoins)
             {
-                _coinsVisualGameObjects.Add(transform.GetChild(i).transform.GetChild(0).gameObject);
+                coin.CoinCollected += AddCollectedCoin;
             }
         }
 
-        public void SpawnCoins()
+        private void Awake()
         {
-            foreach (var coin in _coinsVisualGameObjects)
+            _bestCoinsScoreText = FindObjectOfType<BestCoinsScoreText>();
+            _coinsScoreText = FindObjectOfType<CoinsScoreText>();
+            _allCoins = FindObjectsOfType<CollectibleCoinController>();
+            _collectedCoins = new List<CollectibleCoinController>();
+        }
+
+        public void RespawnCoins()
+        {
+            foreach (var coin in _collectedCoins)
             {
-                coin.SetActive(true);
+                coin.RespawnCoin();
             }
+            _collectedCoins.Clear();
+            _coinsScoreText.SetCoinsCount(0);
+        }
+
+        private void AddCollectedCoin(CollectibleCoinController coin)
+        {
+            _collectedCoins.Add(coin);
+            _coinsScoreText.SetCoinsCount(_collectedCoins.Count);
+        }
+        
+        public void CheckScore()
+        {
+            _bestCoinsScoreText.RegisterNewCoinsScore(_collectedCoins.Count);
         }
     }
 }

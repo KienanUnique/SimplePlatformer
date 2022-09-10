@@ -19,6 +19,7 @@ namespace Enemies.Flying_eye
         private List<Vector3> _wayPoints;
         private int _currentWayPointIndex;
         private bool _isOnTheWayBack;
+        private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
@@ -27,6 +28,8 @@ namespace Enemies.Flying_eye
             {
                 _wayPoints.Add(route.GetChild(i).transform.position);
             }
+
+            _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
         private void Update()
@@ -72,6 +75,7 @@ namespace Enemies.Flying_eye
             if (_wayPoints.Count == 0) return;
             transform.position = _wayPoints[0];
             _currentWayPointIndex = 1;
+            _rigidbody2D.velocity = Vector2.zero;
         }
     }
 }
