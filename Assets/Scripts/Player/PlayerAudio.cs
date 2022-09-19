@@ -18,12 +18,10 @@ namespace Player
         [SerializeField] [Range(0, 1)] private float groundingSoundLevel;
 
         private AudioSource _audioSource;
-        private System.Random _random;
 
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
-            _random = new System.Random();
         }
 
         public void PlayJumpSound()
@@ -43,7 +41,7 @@ namespace Player
 
         public void PlayRandomStepSound()
         {
-            _audioSource.PlayOneShot(steps[_random.Next(steps.Length)], stepsSoundLevel);
+            _audioSource.PlayOneShot(steps[Random.Range(0, steps.Length)], stepsSoundLevel);
         }
     }
 }

@@ -10,17 +10,15 @@ namespace Enemies.Flying_eye
         [SerializeField] [Range(0, 1)] private float wingsFlapsSoundLevel;
 
         private AudioSource _audioSource;
-        private System.Random _random;
 
         private void Awake()
         {
             _audioSource = GetComponent<AudioSource>();
-            _random = new System.Random();
         }
 
         public void PlayRandomWingFlapSound()
         {
-            _audioSource.PlayOneShot(wingsFlaps[_random.Next(wingsFlaps.Length)], wingsFlapsSoundLevel);
+            _audioSource.PlayOneShot(wingsFlaps[Random.Range(0, wingsFlaps.Length)], wingsFlapsSoundLevel);
         }
     }
 }

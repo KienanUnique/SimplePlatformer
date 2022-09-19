@@ -5,7 +5,7 @@ namespace Coin
     [RequireComponent(typeof(AudioSource))]
     public class CollectibleCoinAudio : MonoBehaviour
     {
-        [Header("Coin collect")] [SerializeField] private AudioClip coinCollect;
+        [Header("Coin collect")] [SerializeField] private AudioClip[] coinCollectSound;
         [SerializeField] [Range(0, 1)] private float coinCollectSoundLevel;
 
         private AudioSource _audioSource;
@@ -17,7 +17,7 @@ namespace Coin
 
         public void PlayCoinCollectSound()
         {
-            _audioSource.PlayOneShot(coinCollect, coinCollectSoundLevel);
+            _audioSource.PlayOneShot(coinCollectSound[Random.Range(0, coinCollectSound.Length)], coinCollectSoundLevel);
         }
     }
 }

@@ -47,9 +47,18 @@ namespace Enemies.Flying_eye
 
             transform.position = Vector3.MoveTowards(transform.position, _wayPoints[_currentWayPointIndex],
                 flySpeed * Time.deltaTime);
-
+            
             if (transform.position == _wayPoints[_currentWayPointIndex])
             {
+                if (!_isOnTheWayBack && _currentWayPointIndex >= _wayPoints.Count - 1)
+                {
+                    _isOnTheWayBack = true;
+                }
+                else if (_isOnTheWayBack && _currentWayPointIndex <= 0)
+                {
+                    _isOnTheWayBack = false;
+                }
+                
                 if (_isOnTheWayBack)
                 {
                     _currentWayPointIndex--;
@@ -58,20 +67,12 @@ namespace Enemies.Flying_eye
                 {
                     _currentWayPointIndex++;
                 }
-
-                if (!_isOnTheWayBack && _currentWayPointIndex == _wayPoints.Count - 1)
-                {
-                    _isOnTheWayBack = true;
-                }
-                else if (_isOnTheWayBack && _currentWayPointIndex == 0)
-                {
-                    _isOnTheWayBack = false;
-                }
             }
         }
 
         public void TeleportToStartPosition()
         {
+            _isOnTheWayBack = false;
             if (_wayPoints.Count == 0) return;
             transform.position = _wayPoints[0];
             _currentWayPointIndex = 1;

@@ -154,7 +154,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb38c0077208c9e43abc8c3538df2285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coinCollect: {fileID: 8300000, guid: 515f01a3278f6b646982037ebacdf581, type: 3}
+  coinCollectSound:
+  - {fileID: 8300000, guid: e007b554d59adcc45a21a8314582be3e, type: 3}
+  - {fileID: 8300000, guid: d5926b4ec70558c4da244af7691c66d8, type: 3}
+  - {fileID: 8300000, guid: 0c59377a0d23d974ea3c19eb699dad6f, type: 3}
   coinCollectSoundLevel: 0.2
 --- !u!1 &1203311613460145601
 GameObject:
@@ -229,7 +232,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: -4986890610287934012, guid: 274d64617113287499ed1c4165d1d8f3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
