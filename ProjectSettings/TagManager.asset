@@ -41,9 +41,18 @@ TagManager:
   - name: Background
     uniqueID: 1498442679
     locked: 0
-  - name: Environment
-    uniqueID: 4162568295
+  - name: Decorations
+    uniqueID: 122249623
+    locked: 0
+  - name: Interactive Objects
+    uniqueID: 3527210097
+    locked: 0
+  - name: Platforms
+    uniqueID: 1625128623
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: UI
+    uniqueID: 2458113897
     locked: 0
