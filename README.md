@@ -35,8 +35,8 @@ The aim of the game to pass the level to the end setting a maximum record for th
 
 
 ## Useful Links
-* Link to Google Disk Project
-* Youtube video with complete walkthrough
+* [Project builds](https://drive.google.com/drive/folders/1V_6tjxfuOUR30ZxO74YYJ87MOR48vwL_?usp=share_link)
+* [Youtube video with complete walkthrough](https://youtu.be/6WAHFYUTGLg)
 
 
 ---
@@ -78,5 +78,5 @@ The aim of the game to pass the level to the end setting a maximum record for th
 
 
 ## Полезные ссылки
-* Ссылка на Google диск проекта
-* Ссылка на Youtube видео с полным прохождением уровня
+* [Билды проекта](https://drive.google.com/drive/folders/1V_6tjxfuOUR30ZxO74YYJ87MOR48vwL_?usp=share_link)
+* [Ссылка на Youtube видео с полным прохождением уровня](https://youtu.be/6WAHFYUTGLg)
